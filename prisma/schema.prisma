@@ -14,7 +14,27 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  id         String      @id @default(cuid())
+  createdAt  DateTime?   @default(now())
+  updatedAt  DateTime?   @updatedAt
+  accessKeys AccessKey[]
+}
+
+model AccessKey {
+  id         String       @id @default(cuid())
+  userId     String
+  createdAt  DateTime?    @default(now())
+  updatedAt  DateTime?    @updatedAt
+  key        String
+  user       User         @relation(fields: [userId], references: [id])
+  rateLimits RateLimits[]
+}
+
+model RateLimits {
+  id             String    @id @default(cuid())
+  accessKeyId    String
+  createdAt      DateTime? @default(now())
+  updatedAt      DateTime? @updatedAt
+  limitPerSecond Int
+  accessKey      AccessKey @relation(fields: [accessKeyId], references: [id])
 }

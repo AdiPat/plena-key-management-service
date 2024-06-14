@@ -55,4 +55,17 @@ export class KeyManagementController {
       createdAt: createdUser.createdAt,
     };
   }
+
+  @Post('/')
+  @HttpCode(HttpStatus.CREATED)
+  async createAccessKey(@Req() request: Request): Promise<any> {
+    const body = await request.json();
+    const userId = body.userId;
+
+    if (!userId) {
+      throw new HttpException('Missing userId', HttpStatus.BAD_REQUEST);
+    }
+
+    return this.keyManagementService.generateKey(userId);
+  }
 }
