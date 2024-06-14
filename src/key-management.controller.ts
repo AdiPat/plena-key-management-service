@@ -13,11 +13,11 @@ import { KeyManagementService } from './key-management.service';
 import { extractClaims } from './common';
 import { User } from '@prisma/client';
 
-@Controller()
+@Controller('keys')
 export class KeyManagementController {
   constructor(private readonly keyManagementService: KeyManagementService) {}
 
-  @Post()
+  @Post('user/register')
   @HttpCode(201)
   async registerUser(
     @Req() request: Request,
