@@ -68,4 +68,16 @@ export class KeyManagementController {
 
     return this.keyManagementService.generateKey(userId);
   }
+
+  @Get('/all')
+  @HttpCode(HttpStatus.OK)
+  async getAllAccessKeys(@Req() request: Request): Promise<any> {
+    const userId = (request as any).userId;
+
+    if (!userId) {
+      throw new HttpException('Missing userId', HttpStatus.BAD_REQUEST);
+    }
+
+    return this.keyManagementService.listKeys(userId);
+  }
 }

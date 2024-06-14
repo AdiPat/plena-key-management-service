@@ -40,4 +40,14 @@ export class KeyManagementService {
       rateLimits,
     };
   }
+
+  async listKeys(userId: string): Promise<AccessKey[]> {
+    const keys = await this.prismaService.accessKey.findMany({
+      where: {
+        userId,
+      },
+    });
+
+    return keys;
+  }
 }
