@@ -1,8 +1,8 @@
 {
   "name": "plena-key-management-service",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "An access key management service that issues access keys and manages them to service consumers.",
+  "author": "Aditya Patange",
   "private": true,
   "license": "MIT",
   "scripts": {
