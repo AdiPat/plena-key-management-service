@@ -2,11 +2,12 @@
 FROM node:lts-alpine3.19
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 COPY .env ./
+COPY prisma ./prisma
 
 # Install app dependencies
 RUN npm install
@@ -18,4 +19,4 @@ COPY . .
 RUN npm run build
 
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "npm", "run", "start" ]
