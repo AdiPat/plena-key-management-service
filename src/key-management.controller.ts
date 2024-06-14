@@ -18,7 +18,7 @@ export class KeyManagementController {
   constructor(private readonly keyManagementService: KeyManagementService) {}
 
   @Post('user/register')
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   async registerUser(
     @Req() request: Request,
   ): Promise<RegisterUserResponseDTO> {
@@ -39,7 +39,7 @@ export class KeyManagementController {
     }
 
     const authHeader = authorizationHeader.split(' ')[1];
-    const claims = extractClaims(authHeader, process.env.JWT_SECRET);
+    const claims = extractClaims(authHeader);
     const userId = claims.data.userId;
 
     const user: User = {
