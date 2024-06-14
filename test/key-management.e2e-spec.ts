@@ -24,4 +24,10 @@ describe('KeyManagementController (e2e)', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(HttpStatus.CREATED);
   });
+
+  it('/keys/user/register (POST): returns bad request if auth header is absent', () => {
+    return request(app.getHttpServer())
+      .post('/keys/user/register')
+      .expect(HttpStatus.BAD_REQUEST);
+  });
 });
