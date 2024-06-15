@@ -1,3 +1,4 @@
+import { addYears } from 'date-fns';
 import jwt from 'jsonwebtoken';
 import { JwtClaims } from 'src/models';
 
@@ -11,4 +12,8 @@ function extractClaims(token: string): JwtClaims {
   }
 }
 
-export { extractClaims };
+function getDefaultAccessKeyExpiry(): Date {
+  return addYears(new Date(), 1);
+}
+
+export { extractClaims, getDefaultAccessKeyExpiry };
