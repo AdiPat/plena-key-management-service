@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   Req,
 } from '@nestjs/common';
@@ -79,5 +80,20 @@ export class KeyManagementController {
     }
 
     return this.keyManagementService.listKeys(userId);
+  }
+
+  @Post('/:keyId/rate-limit')
+  @HttpCode(HttpStatus.OK)
+  async updateRateLimits(
+    @Param('keyId') keyId: string,
+    @Body() body: { limit: number },
+  ): Promise<any> {
+    const limit = body.limit;
+
+    if (!keyId || !limit) {
+      throw new HttpException('Missing keyId or limit', HttpStatus.BAD_REQUEST);
+    }
+
+    return this.keyManagementService.setRateLimit(keyId, limit);
   }
 }

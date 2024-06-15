@@ -50,4 +50,37 @@ export class KeyManagementService {
 
     return keys;
   }
+
+  async setRateLimit(accessKeyId: string, limit: number): Promise<RateLimits> {
+    const key = await this.prismaService.accessKey.findFirst({
+      where: {
+        id: accessKeyId,
+      },
+    });
+
+    if (!key) {
+      throw new Error('Key not found');
+    }
+
+    const rateLimits = await this.prismaService.rateLimits.findFirst({
+      where: {
+        accessKeyId: key.id,
+      },
+    });
+
+    if (!rateLimits) {
+      throw new Error('Rate limits not found');
+    }
+
+    await this.prismaService.rateLimits.update({
+      where: {
+        id: rateLimits.id,
+      },
+      data: {
+        limitPerSecond: limit,
+      },
+    });
+
+    return rateLimits;
+  }
 }
