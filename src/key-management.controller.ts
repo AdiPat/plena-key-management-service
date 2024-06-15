@@ -96,4 +96,29 @@ export class KeyManagementController {
 
     return this.keyManagementService.setRateLimit(keyId, limit);
   }
+
+  @Post('/:keyId/expiry')
+  @HttpCode(HttpStatus.OK)
+  async updateExpiry(
+    @Param('keyId') keyId: string,
+    @Body() body: { expiry: Date },
+  ): Promise<any> {
+    const expiry = body.expiry;
+
+    if (!keyId || !expiry) {
+      throw new HttpException('Missing keyId or limit', HttpStatus.BAD_REQUEST);
+    }
+
+    return this.keyManagementService.setExpiry(keyId, expiry);
+  }
+
+  @Post('/:keyId/revoke')
+  @HttpCode(HttpStatus.OK)
+  async revokeKey(@Param('keyId') key): Promise<any> {
+    if (!key) {
+      throw new HttpException('Missing keyId', HttpStatus.BAD_REQUEST);
+    }
+
+    return this.keyManagementService.revokeAccessKey(key);
+  }
 }

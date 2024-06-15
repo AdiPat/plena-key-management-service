@@ -85,4 +85,50 @@ export class KeyManagementService {
 
     return rateLimits;
   }
+
+  async setExpiry(accessKeyId: string, expiry: Date): Promise<AccessKey> {
+    const key = await this.prismaService.accessKey.findFirst({
+      where: {
+        id: accessKeyId,
+      },
+    });
+
+    if (!key) {
+      throw new Error('Key not found');
+    }
+
+    await this.prismaService.accessKey.update({
+      where: {
+        id: key.id,
+      },
+      data: {
+        expiry,
+      },
+    });
+
+    return key;
+  }
+
+  async revokeAccessKey(accessKeyId: string): Promise<AccessKey> {
+    const key = await this.prismaService.accessKey.findFirst({
+      where: {
+        id: accessKeyId,
+      },
+    });
+
+    if (!key) {
+      throw new Error('Key not found');
+    }
+
+    await this.prismaService.accessKey.update({
+      where: {
+        id: key.id,
+      },
+      data: {
+        disabled: true,
+      },
+    });
+
+    return key;
+  }
 }
