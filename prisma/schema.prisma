@@ -27,6 +27,7 @@ model AccessKey {
   updatedAt  DateTime?    @updatedAt
   expiry     DateTime
   key        String
+  disabled   Boolean      @default(false)
   user       User         @relation(fields: [userId], references: [id])
   rateLimits RateLimits[]
 }
