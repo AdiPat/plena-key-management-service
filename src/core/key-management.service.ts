@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User, AccessKey, RateLimits } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 import { randomBytes } from 'crypto';
-import { getDefaultAccessKeyExpiry } from '../common';
+import { Constants } from '../common';
 
 @Injectable()
 export class KeyManagementService {
@@ -26,7 +26,7 @@ export class KeyManagementService {
       data: {
         userId: userId,
         key,
-        expiry: getDefaultAccessKeyExpiry(),
+        expiry: Constants.DEFAULT_ACCESS_KEY_EXPIRY,
       },
     });
 

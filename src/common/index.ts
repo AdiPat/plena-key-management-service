@@ -2,6 +2,10 @@ import { addYears } from 'date-fns';
 import jwt from 'jsonwebtoken';
 import { JwtClaims } from 'src/models';
 
+const Constants = {
+  DEFAULT_ACCESS_KEY_EXPIRY: addYears(new Date(), 1),
+};
+
 function extractClaims(token: string): JwtClaims {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SIGNING_KEY);
@@ -12,8 +16,4 @@ function extractClaims(token: string): JwtClaims {
   }
 }
 
-function getDefaultAccessKeyExpiry(): Date {
-  return addYears(new Date(), 1);
-}
-
-export { extractClaims, getDefaultAccessKeyExpiry };
+export { extractClaims, Constants };
