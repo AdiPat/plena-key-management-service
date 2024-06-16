@@ -16,7 +16,7 @@ export class AuthMiddleware implements NestMiddleware {
     if (!authorizationHeader) {
       throw new HttpException(
         'Missing authorization header',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.UNAUTHORIZED,
       );
     }
 
@@ -28,7 +28,14 @@ export class AuthMiddleware implements NestMiddleware {
 
     const authHeader = authorizationHeader.split(' ')[1];
     const claims = extractClaims(authHeader);
-    const userId = claims.data.userId;
+    const userId = claims?.data?.userId;
+
+    if (!userId) {
+      throw new HttpException(
+        'No userId in JWT token',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
 
     (req as any).userId = userId;
 

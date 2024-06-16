@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { KeyManagementController } from './key-management.controller';
@@ -13,6 +18,12 @@ import { AuthMiddleware } from './auth.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('*');
+    consumer.apply(AuthMiddleware).forRoutes(
+      { path: 'keys/user/register', method: RequestMethod.POST },
+      {
+        path: 'keys',
+        method: RequestMethod.POST,
+      },
+    );
   }
 }
