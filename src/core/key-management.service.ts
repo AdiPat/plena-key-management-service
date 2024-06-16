@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User, AccessKey, RateLimits } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 import { randomBytes } from 'crypto';
-import { Constants } from '../common';
+import { Constants, generateRandomKey } from '../common';
 
 @Injectable()
 export class KeyManagementService {
@@ -20,7 +20,7 @@ export class KeyManagementService {
   async generateKey(
     userId: string,
   ): Promise<{ accessKey: AccessKey; rateLimits: RateLimits }> {
-    const key = randomBytes(32).toString('hex'); // Generates a 64 characters long hexadecimal string
+    const key = generateRandomKey(); // Generates a 64 characters long hexadecimal string
 
     const accessKey = await this.prismaService.accessKey.create({
       data: {

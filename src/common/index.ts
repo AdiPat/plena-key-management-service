@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import { addYears } from 'date-fns';
 import jwt from 'jsonwebtoken';
 import { JwtClaims } from 'src/models';
@@ -16,4 +17,9 @@ function extractClaims(token: string): JwtClaims {
   }
 }
 
-export { extractClaims, Constants };
+function generateRandomKey(bytes = 32): string {
+  const key = randomBytes(bytes).toString('hex'); // Generates a bytes*2 characters long hexadecimal string
+  return key;
+}
+
+export { extractClaims, generateRandomKey, Constants };
