@@ -9,7 +9,7 @@ import { AppService } from './app.service';
 import { KeyManagementController } from './key-management.controller';
 import { KeyManagementService } from './key-management.service';
 import { PrismaService } from './prisma.service';
-import { AuthMiddleware } from './auth.middleware';
+import { AuthMiddleware } from '../middleware';
 
 @Module({
   imports: [],

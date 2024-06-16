@@ -5,7 +5,7 @@ import {
   NestMiddleware,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { extractClaims } from './common';
+import { extractClaims } from '../common';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {

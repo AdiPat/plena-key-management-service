@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/core/app.module';
 import { generateJWT } from './test-utils';
 
 describe('KeyManagementController (e2e)', () => {
@@ -25,9 +25,9 @@ describe('KeyManagementController (e2e)', () => {
       .expect(HttpStatus.CREATED);
   });
 
-  it('/keys/user/register (POST): returns bad request if auth header is absent', () => {
+  it('/keys/user/register (POST): returns unauthorized if auth header is absent', () => {
     return request(app.getHttpServer())
       .post('/keys/user/register')
-      .expect(HttpStatus.BAD_REQUEST);
+      .expect(HttpStatus.UNAUTHORIZED);
   });
 });

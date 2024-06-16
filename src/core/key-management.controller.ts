@@ -9,7 +9,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { RegisterUserResponseDTO } from './dto';
+import { RegisterUserResponseDTO } from '../dto';
 import { KeyManagementService } from './key-management.service';
 import { User } from '@prisma/client';
 
