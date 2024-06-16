@@ -40,3 +40,5 @@ model RateLimits {
   limitPerSecond Int
   accessKey      AccessKey @relation(fields: [accessKeyId], references: [id])
 }
+
+
