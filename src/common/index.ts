@@ -2,6 +2,10 @@ import { randomBytes } from 'crypto';
 import { addYears } from 'date-fns';
 import jwt from 'jsonwebtoken';
 import { JwtClaims } from 'src/models';
+import { Redis } from 'ioredis';
+import { AccessKeyCache } from './access-key-cache';
+
+const redis = new Redis();
 
 const Constants = {
   DEFAULT_ACCESS_KEY_EXPIRY: addYears(new Date(), 1),
@@ -22,4 +26,4 @@ function generateRandomKey(bytes = 32): string {
   return key;
 }
 
-export { extractClaims, generateRandomKey, Constants };
+export { extractClaims, generateRandomKey, redis, Constants, AccessKeyCache };

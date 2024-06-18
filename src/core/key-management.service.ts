@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User, AccessKey, RateLimits } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 import { randomBytes } from 'crypto';
-import { Constants, generateRandomKey } from '../common';
+import { AccessKeyCache, Constants, generateRandomKey, redis } from '../common';
 
 @Injectable()
 export class KeyManagementService {
@@ -35,6 +35,13 @@ export class KeyManagementService {
         accessKeyId: accessKey.id,
         limitPerSecond: 100,
       },
+    });
+
+    await AccessKeyCache.setAccessKeyDetails({
+      accessKey: accessKey.key,
+      limitPerSecond: rateLimits.limitPerSecond,
+      disabled: accessKey.disabled,
+      expiry: accessKey.expiry,
     });
 
     return {
@@ -83,6 +90,13 @@ export class KeyManagementService {
       },
     });
 
+    await AccessKeyCache.setAccessKeyDetails({
+      accessKey: key.key,
+      limitPerSecond: limit,
+      disabled: key.disabled,
+      expiry: key.expiry,
+    });
+
     return rateLimits;
   }
 
@@ -106,6 +120,19 @@ export class KeyManagementService {
       },
     });
 
+    const rateLimit = await this.prismaService.rateLimits.findFirst({
+      where: {
+        accessKeyId: key.id,
+      },
+    });
+
+    await AccessKeyCache.setAccessKeyDetails({
+      accessKey: key.key,
+      limitPerSecond: rateLimit.limitPerSecond,
+      disabled: key.disabled,
+      expiry: key.expiry,
+    });
+
     return key;
   }
 
@@ -127,6 +154,19 @@ export class KeyManagementService {
       data: {
         disabled: true,
       },
+    });
+
+    const rateLimit = await this.prismaService.rateLimits.findFirst({
+      where: {
+        accessKeyId: key.id,
+      },
+    });
+
+    await AccessKeyCache.setAccessKeyDetails({
+      accessKey: key.key,
+      limitPerSecond: rateLimit.limitPerSecond,
+      disabled: key.disabled,
+      expiry: key.expiry,
     });
 
     return key;
