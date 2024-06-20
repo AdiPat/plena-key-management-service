@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User, AccessKey, RateLimits } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 import { randomBytes } from 'crypto';
@@ -22,20 +22,42 @@ export class KeyManagementService {
   ): Promise<{ accessKey: AccessKey; rateLimits: RateLimits }> {
     const key = generateRandomKey(); // Generates a 64 characters long hexadecimal string
 
-    const accessKey = await this.prismaService.accessKey.create({
-      data: {
-        userId: userId,
-        key,
-        expiry: Constants.DEFAULT_ACCESS_KEY_EXPIRY,
-      },
-    });
+    const accessKey = await this.prismaService.accessKey
+      .create({
+        data: {
+          userId: userId,
+          key,
+          expiry: Constants.DEFAULT_ACCESS_KEY_EXPIRY,
+        },
+      })
+      .catch((error) => {
+        console.error('Error creating access key', error);
+      });
 
-    const rateLimits = await this.prismaService.rateLimits.create({
-      data: {
-        accessKeyId: accessKey.id,
-        limitPerSecond: 100,
-      },
-    });
+    if (!accessKey) {
+      throw new HttpException(
+        'Error creating access key',
+        HttpStatus.FAILED_DEPENDENCY,
+      );
+    }
+
+    const rateLimits = await this.prismaService.rateLimits
+      .create({
+        data: {
+          accessKeyId: accessKey.id,
+          limitPerSecond: 100,
+        },
+      })
+      .catch((error) => {
+        console.error('Error creating rate limits', error);
+      });
+
+    if (!rateLimits) {
+      throw new HttpException(
+        'Error creating rate limits',
+        HttpStatus.FAILED_DEPENDENCY,
+      );
+    }
 
     await AccessKeyCache.setAccessKeyDetails({
       accessKey: accessKey.key,
