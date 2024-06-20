@@ -33,12 +33,11 @@ model AccessKey {
 }
 
 model RateLimits {
-  id             String    @id @default(cuid())
-  accessKeyId    String
-  createdAt      DateTime? @default(now())
-  updatedAt      DateTime? @updatedAt
-  limitPerSecond Int
-  accessKey      AccessKey @relation(fields: [accessKeyId], references: [id])
+  id          String    @id @default(cuid())
+  accessKeyId String
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+  limit       Int
+  interval    Int       @default(60)
+  accessKey   AccessKey @relation(fields: [accessKeyId], references: [id])
 }
-
-
