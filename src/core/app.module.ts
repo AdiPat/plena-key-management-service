@@ -10,9 +10,17 @@ import { KeyManagementController } from './key-management.controller';
 import { KeyManagementService } from './key-management.service';
 import { PrismaService } from './prisma.service';
 import { AccessKeyMiddleware, AuthMiddleware } from '../middleware';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
-  imports: [],
+  imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 1000, // NOTE: static limits for this service, the token service uses dynamic limits
+      },
+    ]),
+  ],
   controllers: [AppController, KeyManagementController],
   providers: [PrismaService, AppService, KeyManagementService],
 })
