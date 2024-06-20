@@ -61,7 +61,7 @@ export class KeyManagementService {
 
     await AccessKeyCache.setAccessKeyDetails({
       accessKey: accessKey.key,
-      limitPerSecond: rateLimits.limitPerSecond,
+      limit: rateLimits.limitPerSecond,
       disabled: accessKey.disabled,
       expiry: accessKey.expiry,
     });
@@ -114,7 +114,7 @@ export class KeyManagementService {
 
     await AccessKeyCache.setAccessKeyDetails({
       accessKey: key.key,
-      limitPerSecond: limit,
+      limit: limit,
       disabled: key.disabled,
       expiry: key.expiry,
     });
@@ -150,7 +150,7 @@ export class KeyManagementService {
 
     await AccessKeyCache.setAccessKeyDetails({
       accessKey: key.key,
-      limitPerSecond: rateLimit.limitPerSecond,
+      limit: rateLimit.limitPerSecond,
       disabled: key.disabled,
       expiry: key.expiry,
     });
@@ -186,7 +186,7 @@ export class KeyManagementService {
 
     await AccessKeyCache.setAccessKeyDetails({
       accessKey: key.key,
-      limitPerSecond: rateLimit.limitPerSecond,
+      limit: rateLimit.limitPerSecond,
       disabled: key.disabled,
       expiry: key.expiry,
     });

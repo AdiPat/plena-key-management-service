@@ -1,6 +1,7 @@
 interface AccessKeyDetails {
   accessKey: string;
-  limitPerSecond: number;
+  limit: number;
+  interval?: number; // default is 60
   disabled: boolean;
   expiry: Date;
 }
