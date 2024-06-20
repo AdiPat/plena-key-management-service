@@ -41,8 +41,7 @@ export class KeyManagementController {
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
   async createAccessKey(@Req() request: Request): Promise<any> {
-    const body = await request.json();
-    const userId = body.userId;
+    const userId = (request as any).userId;
 
     if (!userId) {
       throw new HttpException('Missing userId', HttpStatus.BAD_REQUEST);
@@ -54,6 +53,7 @@ export class KeyManagementController {
   @Get('/all')
   @HttpCode(HttpStatus.OK)
   async getAllAccessKeys(@Req() request: Request): Promise<any> {
+    console.log('getAllAccessKeys');
     const userId = (request as any).userId;
 
     if (!userId) {
