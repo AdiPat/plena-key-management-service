@@ -9,7 +9,7 @@ import { AppService } from './app.service';
 import { KeyManagementController } from './key-management.controller';
 import { KeyManagementService } from './key-management.service';
 import { PrismaService } from './prisma.service';
-import { AuthMiddleware } from '../middleware';
+import { AccessKeyMiddleware, AuthMiddleware } from '../middleware';
 
 @Module({
   imports: [],
@@ -18,12 +18,7 @@ import { AuthMiddleware } from '../middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(
-      { path: 'keys/user/register', method: RequestMethod.POST },
-      {
-        path: 'keys',
-        method: RequestMethod.POST,
-      },
-    );
+    consumer.apply(AuthMiddleware).forRoutes(KeyManagementController);
+    consumer.apply(AccessKeyMiddleware).forRoutes(KeyManagementController);
   }
 }
