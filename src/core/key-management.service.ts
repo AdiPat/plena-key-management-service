@@ -45,7 +45,7 @@ export class KeyManagementService {
       .create({
         data: {
           accessKeyId: accessKey.id,
-          limitPerSecond: 100,
+          limit: Constants.DEFAULT_RATE_LIMIT_PER_MIN,
         },
       })
       .catch((error) => {

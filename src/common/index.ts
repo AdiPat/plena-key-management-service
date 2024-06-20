@@ -9,6 +9,7 @@ const redis = new Redis();
 
 const Constants = {
   DEFAULT_ACCESS_KEY_EXPIRY: addYears(new Date(), 1),
+  DEFAULT_RATE_LIMIT_PER_MIN: 100, // per min
 };
 
 function extractClaims(token: string): JwtClaims {
