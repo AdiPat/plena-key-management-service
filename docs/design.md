@@ -2,6 +2,8 @@
 
 This document covers the core architectural and design decisions that were taken when building the microservice.
 
+**NOTE:** The service is Dockerized, but not integration tested with Docker. The service works standalone with Docker but might not work with the `plena-token-service` because the latter uses the Redis instance on the machine whereas the former uses the Redis container in the Docker volume.
+
 # Assumptions
 
 - Since we're not building an auth service, we replicate the JWT signing key across services. The JWT signing key lives in the .env file. The `gen-token` script is used to generate a token that can be used to test the service.
