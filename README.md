@@ -4,6 +4,8 @@
 
 An API key management service that issues access keys and manages them to service consumers.
 
+**Read**: [Design & Architecture Doc](https://github.com/AdiPat/plena-key-management-service/blob/main/docs/design.md)
+
 ## Features & Specifications
 
 - Generate access keys for users.
